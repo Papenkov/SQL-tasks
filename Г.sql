@@ -1,6 +1,6 @@
-select distinct items.itemid, 
-    round(100.0 * sum(Items.price) over (Partition by Purchases.itemid) / sum(Items.price) over (), 2) as percents 
-from Purchases
-join items on Purchases.itemid = items.itemid
-join users on users.userID = Purchases.userid
-ORDER by percents desc limit 3
+SELECT DISTINCT items.itemid, 
+  round(100.0 * SUM(Items.price) OVER (PARTITION BY Purchases.itemid) / SUM(Items.price) OVER(), 2) AS percents 
+    FROM Purchases
+        JOIN items ON Purchases.itemid = items.itemid
+        JOIN users ON users.userID = Purchases.userid
+            ORDER BY percents DESC limit 3
