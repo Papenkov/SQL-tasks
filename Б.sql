@@ -1,9 +1,6 @@
-select strftime('%m', date) as date, sum(Items.price) over (partition by strftime('%m', date)) as sum from Purchases
-join items on Purchases.itemid = items.itemid
-join users on users.userID = Purchases.userid
-	where Users.age >= 35
-	order by sum desc limit 1
-
-
-
+SELECT strftime('%m', date) AS date, SUM(Items.price) OVER (PARTITION BY strftime('%m', date)) AS sum FROM Purchases
+JOIN items ON Purchases.itemid = items.itemid
+JOIN users ON users.userID = Purchases.userid
+	WHERE Users.age >= 35
+	ORDER BY sum DESC limit 1
 
