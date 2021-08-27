@@ -1,7 +1,9 @@
-SELECT DISTINCT strftime('%m', date) AS month_number, 
-	AVG(Items.price) OVER (PARTITION BY strftime('%m', date)) AS avg_spend  FROM Purchases
-	JOIN Items ON Purchases.itemid = Items.itemid
-	JOIN Users ON Users.userID = Purchases.userid
-		WHERE Users.age BETWEEN 18 AND 25
-		
-# выдает результат средних трат по месяцам
+WITH result_table AS (
+  SELECT COUNT(I.itemID) AS cnt, sum(I.price) AS sum  FROM Purchases AS P
+	JOIN Items AS I ON P.itemid = I.itemid
+	JOIN Users AS U ON U.userID = P.userid
+		WHERE U.age BETWEEN 18 AND 25
+    	GROUP BY strftime('%m', date)
+  )
+  
+ SELECT AVG(sum/cnt) AS AVG_per_month FROM result_table
